@@ -18,7 +18,7 @@ export const Searchbar = ({ onSubmit }) => {
     <header className="Searchbar">
       <Formik
         initialValues={{
-          text: '',
+          value: '',
         }}
         validationSchema={Schema}
         onSubmit={(values, actions) => {
@@ -34,13 +34,13 @@ export const Searchbar = ({ onSubmit }) => {
 
           <Field
             className="input"
-            name="text"
             type="text"
+            name="value"
             autoComplete="off"
             autoFocus
             placeholder="Search images and photos"
           />
-          <ErrorMessage component="div" name="text" />
+          <ErrorMessage component="div" name="value" />
         </Form>
       </Formik>
     </header>

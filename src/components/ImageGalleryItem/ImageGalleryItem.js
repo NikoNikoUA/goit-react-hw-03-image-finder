@@ -1,9 +1,9 @@
 import './ImageGalleryItem.css';
 
-export const ImageGalleryItem = ({ id, webformatURL, largeImageURL }) => {
+export const ImageGalleryItem = ({ tags, image }) => {
   return (
-    <li key={id} className="gallery-item">
-      <img className="image" src={webformatURL} alt={id} />
+    <li className="gallery-item">
+      <img className="image" src={image} alt={tags} />
     </li>
   );
 };

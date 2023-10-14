@@ -1,57 +1,69 @@
 import React, { PureComponent } from 'react';
-import axios from 'axios';
 import './App.css'
 import { Searchbar } from './Searchbar/Searchbar'
 import { ImageGallery } from './ImageGallery/ImageGallery'
 import { Button } from './Button/Button'
-import {Modal} from './Modal/Modal'
+import { Modal } from './Modal/Modal'
+import { FetchImages }  from './Api/Api';
 
 class App extends PureComponent {
   state = {
+    query: '',
+    page: 1,
     images: [],
     loading: false,
-  error: null,
+    error: false,
+    loadMore: false,
   }
 
-  async componentDidMount() {
+ 
+async componentDidUpdate(prevProps, prevState) {
+  const { page, query } = this.state;
 
-      const BASE_URL = 'https://pixabay.com/api/';
-    const API_KEY = '38986631-ae11b42db00bd05f0f2571500';
-  const params = new URLSearchParams({
-    key: API_KEY,
-    // q: inputValue,
-    image_type: 'photo',
-    orientation: 'horizontal',
-    safesearch: true,
-    page: 1,
-    per_page: 12,
-  });
-    
-    this.setState({ loading: true });
+  if (page !== prevState.page || query !== prevState.query) {
+    const fetchedImages = await FetchImages(query, page);
+    this.setState({
+      images: [...prevState.images, ...fetchedImages.hits],
+      loadMore: page < Math.ceil(fetchedImages.totalHits / 12)
+    });
+  }
+}
   
-    try {
-      const response = await axios.get(`${BASE_URL}?${params}`);
-      this.setState({ images: response.data.hits });
-    } catch(error) {
-    this.setState({ error });
-  } finally {
-    this.setState({loading: false})
-     }
-      
+  onFormSubmit = (event, { value }) => {
+     event.preventDefault();
+    this.setState({ query: value });
+
+    if (this.state.query === value) {
+      return;
+    } else {
+      this.setState({
+        images: [],
+        page: 1,
+      });
+    }
+  
+  }
+
+  onLoadMore = () => {
+    this.setState(prevState => ({
+         page: prevState.page + 1  
+        }));
   }
  
   
-  render() {
-    const { images, loading, error } = this.state;
+render() {
+    const { images, loading, error} = this.state;
   return(
     <div className="App">
       {error && <p>Whoops, something went wrong: {error.message}</p>}
-      <Searchbar onSubmit={ this.componentDidMount} />
-      {loading ? <p>Loading...</p> : <ImageGallery images={images} />}
-      {images.length ? <Button /> : null }
+      <Searchbar onSubmit={ this.onFormSubmit} />
+      {loading && <p>Loading...</p>}
+      {images.length > 0 ? <ImageGallery images={images} /> : null}
+      {images.length ? <Button onLoadMore={ this.onLoadMore} /> : null }
       <Modal />
     </div>
-  )};
-};
+  )
+  };
+}
 
 export default App;
