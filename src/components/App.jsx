@@ -27,7 +27,7 @@ class App extends PureComponent {
         const { query, page } = this.state;
         const fetchedImages = await fetchImages(query, page);
 
-
+        
         if (query.trim() === '') {
       toast.error('Please enter valid request');
       return;
@@ -42,7 +42,7 @@ class App extends PureComponent {
           loadMore: page < Math.ceil(fetchedImages.totalHits / 12),
  
         }))
-      }
+              }
           catch (error) {
         this.setState({ error: true })
       } finally {
