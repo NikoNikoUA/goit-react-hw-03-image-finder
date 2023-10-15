@@ -4,7 +4,7 @@ import './Searchbar.css';
 import { SlMagnifier } from 'react-icons/sl';
 
 const Schema = yup.object().shape({
-  text: yup
+  value: yup
     .string()
     .required('Required')
     .matches(
@@ -27,7 +27,7 @@ export const Searchbar = ({ onSubmit }) => {
           actions.resetForm();
         }}
       >
-        <Form className="SearchForm" onSubmit={onSubmit}>
+        <Form className="SearchForm">
           <button type="submit" className="button">
             <span className="buttonlabel">Search</span>
             <SlMagnifier />

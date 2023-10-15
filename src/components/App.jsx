@@ -17,40 +17,33 @@ class App extends PureComponent {
     loadMore: false,
   }
 
-   async componentDidUpdate(prevState) {
-    
-    try {
+  async componentDidUpdate(prevState) {
     const { query, currentPage } = this.state;
-    this.setState({loading: true})
-      if (currentPage !== prevState.currentPage || query !== prevState.query) {
-          const fetchedImages = await fetchImages(currentPage, query);
-      this.setStete({
-         images: [...prevState.images, ...fetchedImages.hits],
-        loadMore: currentPage < Math.ceil(fetchedImages.totalHits / 12),
-        error: false
-            })
+    this.setState({ loading: true })
+    if (currentPage !== prevState.currentPage || query !== prevState.query) {
+      try {
+        const fetchedImages = await fetchImages(query, currentPage);
+        this.setState(prevState => ({
+          images: [...prevState.images, ...fetchedImages.hits],
+          loadMore: currentPage < Math.ceil(fetchedImages.totalHits / 12),
+        }))
       }
     
-    } catch (error) {
-      this.setState({ error: true })
-}finally {
-      this.setState({ loading: false });
+      catch (error) {
+        this.setState({ error: true })
+      } finally {
+        this.setState({ loading: false });
+      }
     }
   }
   
   onFormSubmit = (value) => {
-      this.setState({ query: value });
-        console.log(value);
 
     if (this.state.query === value) {
       return;
-    } else {
-      this.setState({
-        images: [],
-        currentPage: 1,
-      });
     }
-  
+      this.setState({ query: value, images: [],
+        currentPage: 1, error: false });
   }
 
   onLoadMore = () => {
@@ -64,8 +57,8 @@ render() {
     const { images, loading, error} = this.state;
   return(
     <div className="App">
+      <Searchbar onSubmit={this.onFormSubmit} />
       {error && toast.error(`Whoops, something went wrong: ${error.message}`)}
-      <Searchbar onSubmit={ this.onFormSubmit} />
       {loading && <Hourglass
   visible={true}
   height="60"
