@@ -1,4 +1,3 @@
-import * as yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import css from './Searchbar.module.css';
 import { SlMagnifier } from 'react-icons/sl';

@@ -26,9 +26,12 @@ class App extends PureComponent {
         this.setState({ loading: true, error: false })
         const { query, page } = this.state;
         const fetchedImages = await fetchImages(query, page);
-        if (fetchedImages) {
-          toast.success(`We have found ${fetchedImages.totalHits} images`)
-        }
+
+
+        if (query.trim() === '') {
+      toast.error('Please enter valid request');
+      return;
+    }
 
         if (fetchedImages.hits.length === 0) {
           toast.info('There are no pictures matching your request')
@@ -84,7 +87,7 @@ render() {
 />}
       {images.length > 0 && <ImageGallery images={images} />}
       {loadMore && <Button onLoadMore={this.onLoadMore} />}
-      <ToastContainer theme="colored" />
+      <ToastContainer autoClose={4000} theme="colored" />
     </div>
   )
   };
