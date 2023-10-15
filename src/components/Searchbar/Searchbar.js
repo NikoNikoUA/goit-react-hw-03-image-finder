@@ -3,16 +3,6 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import css from './Searchbar.module.css';
 import { SlMagnifier } from 'react-icons/sl';
 
-const Schema = yup.object().shape({
-  value: yup
-    .string()
-    .required('Required')
-    .matches(
-      /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/,
-      'Enter valid symbols'
-    ),
-});
-
 export const Searchbar = ({ onSubmit }) => {
   return (
     <header className={css.Searchbar}>
@@ -20,7 +10,6 @@ export const Searchbar = ({ onSubmit }) => {
         initialValues={{
           value: '',
         }}
-        validationSchema={Schema}
         onSubmit={(values, actions) => {
           console.log(values);
           onSubmit(values.value);
