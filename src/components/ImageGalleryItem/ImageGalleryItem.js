@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import './ImageGalleryItem.css';
+import css from './ImageGalleryItem.module.css';
 import { ModalWindow } from '../Modal/Modal';
 
 class ImageGalleryItem extends PureComponent {
@@ -21,7 +21,7 @@ class ImageGalleryItem extends PureComponent {
     return (
       <>
         <img
-          className="image"
+          className={css.image}
           src={image}
           alt={tags}
           onClick={this.openModal}

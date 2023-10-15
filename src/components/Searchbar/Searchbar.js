@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import './Searchbar.css';
+import css from './Searchbar.module.css';
 import { SlMagnifier } from 'react-icons/sl';
 
 const Schema = yup.object().shape({
@@ -15,7 +15,7 @@ const Schema = yup.object().shape({
 
 export const Searchbar = ({ onSubmit }) => {
   return (
-    <header className="Searchbar">
+    <header className={css.Searchbar}>
       <Formik
         initialValues={{
           value: '',
@@ -27,14 +27,14 @@ export const Searchbar = ({ onSubmit }) => {
           actions.resetForm();
         }}
       >
-        <Form className="SearchForm">
-          <button type="submit" className="button">
-            <span className="buttonlabel">Search</span>
+        <Form className={css.SearchForm}>
+          <button type="submit" className={css.button}>
+            <span className={css.buttonlabel}>Search</span>
             <SlMagnifier />
           </button>
 
           <Field
-            className="input"
+            className={css.input}
             type="text"
             name="value"
             autoComplete="off"
