@@ -13,17 +13,6 @@ const Schema = yup.object().shape({
     ),
 });
 
-// const initialValues = {
-//   value: '',
-// };
-
-// export const LoginForm = () => {
-//   const onSubmit = (values, { resetForm }) => {
-//     onSubmit ={values => onSubmit(values.value)},
-//     resetForm();
-//   };
-// };
-
 export const Searchbar = ({ onSubmit }) => {
   return (
     <header className="Searchbar">
@@ -33,6 +22,7 @@ export const Searchbar = ({ onSubmit }) => {
         }}
         validationSchema={Schema}
         onSubmit={(values, actions) => {
+          console.log(values);
           onSubmit(values.value);
           actions.resetForm();
         }}
