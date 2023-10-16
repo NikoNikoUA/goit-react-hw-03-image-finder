@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react';
-import { Hourglass } from 'react-loader-spinner'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import css from './App.module.css'
 import { Searchbar } from './Searchbar/Searchbar'
 import { ImageGallery } from './ImageGallery/ImageGallery'
 import { Button } from './Button/Button'
-import { fetchImages }  from './Api/Api';
+import { fetchImages } from './Api/Api';
+import { Loader} from '../components/Loader/Loader'
 
 class App extends PureComponent {
   state = {
@@ -74,17 +74,7 @@ render() {
     <div className={css.App}>
       <Searchbar onSubmit={this.onFormSubmit} />
       {error && toast.error(`Whoops, something went wrong. Try reloading the page`)}
-      {loading && <Hourglass
-  visible={true}
-  height="60"
-  width="60"
-  ariaLabel="hourglass-loading"
-  wrapperStyle={{}}
-  wrapperClass=""
-        colors={['#306cce', '#72a1ed']}
-        position="fixed" top="50%" left="50%" transform="translate(-50%, -50%)"
-
-/>}
+      {loading && <Loader/>}
       {images.length > 0 && <ImageGallery images={images} />}
       {loadMore && <Button onLoadMore={this.onLoadMore} />}
       <ToastContainer autoClose={4000} theme="colored" />
